@@ -18,47 +18,38 @@ int redState = LOW;
 int grnState = LOW;
 int bluState = LOW;
 
-void ledUpdate()
-{
+void ledUpdate() {
   digitalWrite(redPin, redState);
   digitalWrite(grnPin, grnState);
   digitalWrite(bluPin, bluState);
 }
 
-void ledReport(int value)
-{ 
-  if ((value & 1) == 0)
-  {
+void ledReport(int value) { 
+  if ((value & 1) == 0) {
     redState = LOW;
   }
-  else
-  {
+  else {
     redState = HIGH;
   }
 
-  if ((value & 2) == 0)
-  {
+  if ((value & 2) == 0) {
     grnState = LOW;
   }
-  else
-  {
+  else {
     grnState = HIGH;
   }
 
-  if ((value & 4) == 0)
-  {
+  if ((value & 4) == 0) {
     bluState = LOW;
   }
-  else
-  {
+  else {
     bluState = HIGH;
   }
 
   ledUpdate();
 }
 
-void setup() 
-{
+void setup() {
   pinMode(redPin, OUTPUT);
   pinMode(grnPin, OUTPUT);
   pinMode(bluPin, OUTPUT);
@@ -69,24 +60,19 @@ void setup()
   ledUpdate();
 }
 
-void loop()
-{ 
+void loop() { 
   stateA = digitalRead(buttonApin);
   stateB = digitalRead(buttonBpin);
   
-  if (stateA != lastA)
-  {
-    if (stateA == HIGH)
-    { 
+  if (stateA != lastA) {
+    if (stateA == HIGH) { 
       counter += 1;
       counter %= 8;
     }
     delay(50);
   }
-  if (stateB != lastB)
-  {
-    if (stateB == HIGH)
-    {
+  if (stateB != lastB) {
+    if (stateB == HIGH) {
       counter -= 1;
       counter %= 8;
     }
