@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# VSCode and Arduino extension
+.vscode
+libraries

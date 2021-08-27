@@ -8,6 +8,9 @@ int buttonApin = 9;
 int buttonBpin = 8;
 
 int counter = 0;
+
+int stateA = 0;
+int stateB = 0;
 int lastA = 0;
 int lastB = 0;
 
@@ -56,7 +59,6 @@ void ledReport(int value)
 
 void setup() 
 {
-  Serial.begin(9600);
   pinMode(redPin, OUTPUT);
   pinMode(grnPin, OUTPUT);
   pinMode(bluPin, OUTPUT);
@@ -69,18 +71,28 @@ void setup()
 
 void loop()
 { 
-  if ((lastA == 0) && (digitalRead(buttonApin) == 1))
+  stateA = digitalRead(buttonApin);
+  stateB = digitalRead(buttonBpin);
+  
+  if (stateA != lastA)
   {
-    counter += 1;
+    if (stateA == HIGH)
+    { 
+      counter += 1;
+      counter %= 8;
+    }
+    delay(50);
   }
-  if ((lastB == 0) && (digitalRead(buttonBpin) == 1))
+  if (stateB != lastB)
   {
-    counter -= 1;
+    if (stateB == HIGH)
+    {
+      counter -= 1;
+      counter %= 8;
+    }
+    delay(50);
   }
-  lastA = digitalRead(buttonApin);
-  lastB = digitalRead(buttonBpin);
-  counter %= 8;
+  lastA = stateA;
+  lastB = stateB;
   ledReport(counter);
-  Serial.print(counter);
-  Serial.println();
 }
