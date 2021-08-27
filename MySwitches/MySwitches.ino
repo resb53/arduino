@@ -50,6 +50,7 @@ void ledReport(int value) {
 }
 
 void setup() {
+  Serial.begin(9600);
   pinMode(redPin, OUTPUT);
   pinMode(grnPin, OUTPUT);
   pinMode(bluPin, OUTPUT);
@@ -68,6 +69,7 @@ void loop() {
     if (stateA == HIGH) { 
       counter += 1;
       counter %= 8;
+      Serial.println(counter);
     }
     delay(50);
   }
@@ -75,6 +77,7 @@ void loop() {
     if (stateB == HIGH) {
       counter -= 1;
       counter %= 8;
+      Serial.println(counter);
     }
     delay(50);
   }
