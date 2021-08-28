@@ -14,14 +14,30 @@ int stateB = 0;
 int lastA = 0;
 int lastB = 0;
 
-int redState = LOW;
-int grnState = LOW;
-int bluState = LOW;
+// ledState array: R, G, B
+int ledState[3] = {0, 0, 0};
+int redState = 0;
+int grnState = 0;
+int bluState = 0;
+
 
 void ledUpdate() {
-  digitalWrite(redPin, redState);
+  /*digitalWrite(redPin, redState);
   digitalWrite(grnPin, grnState);
-  digitalWrite(bluPin, bluState);
+  digitalWrite(bluPin, bluState);*/
+
+  digitalWrite(redPin, ledState[0]);
+  digitalWrite(grnPin, ledState[1]);
+  digitalWrite(bluPin, ledState[2]);
+}
+
+void ledSet(int value, int length, int (&state)[3]) {
+  length -= 1;
+  int div = value / 2;
+  if (div != 0) {
+    ledSet(div, length, state);
+  }
+  state[length] = value % 2;
 }
 
 void ledReport(int value) { 
@@ -69,7 +85,13 @@ void loop() {
     if (stateA == HIGH) { 
       counter += 1;
       counter %= 8;
-      Serial.println(counter);
+      ledReport(counter);
+      ledSet(counter, 3, ledState);
+      for(int i = 0; i < 3; i++)
+      {
+        Serial.print(ledState[i]);
+      }
+      Serial.println();
     }
     delay(50);
   }
@@ -77,11 +99,16 @@ void loop() {
     if (stateB == HIGH) {
       counter -= 1;
       counter %= 8;
-      Serial.println(counter);
+      ledReport(counter);
+      ledSet(counter, 3, ledState);
+      for(int i = 0; i < 3; i++)
+      {
+        Serial.print(ledState[i]);
+      }
+      Serial.println();
     }
     delay(50);
   }
   lastA = stateA;
   lastB = stateB;
-  ledReport(counter);
 }
