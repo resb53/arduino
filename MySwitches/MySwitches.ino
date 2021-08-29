@@ -15,11 +15,12 @@ int lastA = 0;
 int lastB = 0;
 
 // ledState array: R, G, B
-int ledState[3] = {0, 0, 0};
+const int LEDSIZE = 3;
+int ledState[LEDSIZE] = {0, 0, 0};
+const int maxval = pow(2, LEDSIZE);
 int redState = 0;
 int grnState = 0;
 int bluState = 0;
-
 
 void ledUpdate() {
   digitalWrite(redPin, ledState[2]);
@@ -28,15 +29,15 @@ void ledUpdate() {
 }
 
 void ledSet(int value) {
-  int newState[3] = {0, 0, 0};
-  updateState(value, 3, newState);
-  for (int i = 0; i<3; i++) {
+  int newState[LEDSIZE] = {0, 0, 0};
+  updateState(value, LEDSIZE, newState);
+  for (int i = 0; i<LEDSIZE; i++) {
     ledState[i] = newState[i];
   }
   Serial.println();
 }
 
-void updateState(int value, int length, int state[3]) {
+void updateState(int value, int length, int state[LEDSIZE]) {
   length -= 1;
   int div = value / 2;
   if (div != 0) {
@@ -50,7 +51,7 @@ int buttonPress(int button, int last, int value) {
   if (buttonState != last) {
     if (buttonState == HIGH) {
       counter = counter + value;
-      counter %= 8;
+      counter %= maxval;
       ledSet(counter);
       ledUpdate();
     }
