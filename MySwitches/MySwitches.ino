@@ -45,6 +45,20 @@ void updateState(int value, int length, int state[3]) {
   state[length] = value % 2;
 }
 
+int buttonPress(int button, int last, int value) {
+  int buttonState = digitalRead(button);
+  if (buttonState != last) {
+    if (buttonState == HIGH) {
+      counter = counter + value;
+      counter %= 8;
+      ledSet(counter);
+      ledUpdate();
+    }
+    delay(100);
+  }
+  return buttonState;
+}
+
 void setup() {
   // Serial.begin(9600);
   pinMode(redPin, OUTPUT);
@@ -58,28 +72,6 @@ void setup() {
 }
 
 void loop() { 
-  stateA = digitalRead(buttonApin);
-  stateB = digitalRead(buttonBpin);
-  
-  if (stateA != lastA) {
-    if (stateA == HIGH) { 
-      counter += 1;
-      counter %= 8;
-      ledSet(counter);
-      ledUpdate();
-    }
-    delay(100);
-  }
-  lastA = stateA;
-
-  if (stateB != lastB) {
-    if (stateB == HIGH) {
-      counter -= 1;
-      counter %= 8;
-      ledSet(counter);
-      ledUpdate();
-    }
-    delay(100);
-  }
-  lastB = stateB;
+  lastA = buttonPress(buttonApin, lastA, 1);
+  lastB = buttonPress(buttonBpin, lastB, -1);
 }
