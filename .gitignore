@@ -34,3 +34,4 @@
 # VSCode and Arduino extension
 .vscode
 libraries
+build
