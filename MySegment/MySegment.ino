@@ -18,11 +18,11 @@ byte seven_seg_digits[10] = { B11111100,  // = 0
                              };
  
 // connect to the ST_CP of 74HC595 (pin 3,latch pin)
-int latchPin = 12;
+int latchPin = 9;
 // connect to the SH_CP of 74HC595 (pin 4, clock pin)
-int clockPin = 13;
+int clockPin = 10;
 // connect to the DS of 74HC595 (pin 2)
-int dataPin = 11;
+int dataPin = 8;
  
 void setup() {
   // Set latchPin, clockPin, dataPin as output
